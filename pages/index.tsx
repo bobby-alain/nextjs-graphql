@@ -15,6 +15,10 @@ const Home: NextPage = () => {
     watch,
     formState: { errors },
   } = useForm<IFormInputs>();
+
+  const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
+    console.log('Hello', data);
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -27,6 +31,21 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        <div>
+          <form onSubmit={handleSubmit(formSubmitHandler)}>
+            <input defaultValue="example@test.com" {...register('email')} />
+            <br />
+            <br />
+            <input
+              type="password"
+              {...register('password', { required: true })}
+            />
+            {errors.password && <span>This field is required</span>}
+            <br />
+            <input type="submit" />
+          </form>
+        </div>
       </main>
     </div>
   );
