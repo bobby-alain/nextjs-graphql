@@ -1,6 +1,12 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+type IFormInputs = {
+  email: string;
+  password: string;
+};
 
 const Home: NextPage = () => {
   return (
