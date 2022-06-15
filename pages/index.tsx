@@ -9,6 +9,12 @@ type IFormInputs = {
 };
 
 const Home: NextPage = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IFormInputs>();
   return (
     <div className={styles.container}>
       <Head>
