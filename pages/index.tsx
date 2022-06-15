@@ -2,11 +2,18 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 type IFormInputs = {
   email: string;
   password: string;
 };
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(6).max(20).required(),
+});
 
 const Home: NextPage = () => {
   const {
@@ -14,7 +21,11 @@ const Home: NextPage = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<IFormInputs>();
+  } = useForm<IFormInputs>({
+    resolver: yupResolver(schema),
+  });
+
+  console.log(errors);
 
   const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
     console.log('Hello', data);
@@ -37,11 +48,10 @@ const Home: NextPage = () => {
             <input defaultValue="example@test.com" {...register('email')} />
             <br />
             <br />
-            <input
-              type="password"
-              {...register('password', { required: true })}
-            />
-            {errors.password && <span>This field is required</span>}
+            <input type="password" {...register('password')} />
+            {errors.password && errors.password?.message && (
+              <span>{errors.password.message}</span>
+            )}
             <br />
             <input type="submit" />
           </form>
